@@ -45,20 +45,20 @@ export const KOLAM_ASSETS: Record<KolamType, (props: { className?: string }) => 
   ),
   [KolamType.DOTS_SIMPLE]: ({ className }) => (
     <svg viewBox="0 0 100 100" className={className}>
-      <path d="M50,10 L90,50 L50,90 L10,50 Z" stroke="white" strokeWidth="3" fill="none" />
-      <circle cx="50" cy="50" r="5" fill="white" />
-      <circle cx="10" cy="50" r="3" fill="white" />
-      <circle cx="90" cy="50" r="3" fill="white" />
-      <circle cx="50" cy="10" r="3" fill="white" />
-      <circle cx="50" cy="90" r="3" fill="white" />
+      <path d="M50,10 L90,50 L50,90 L10,50 Z" stroke="black" strokeWidth="3" fill="none" />
+      <circle cx="50" cy="50" r="5" fill="black" />
+      <circle cx="10" cy="50" r="3" fill="black" />
+      <circle cx="90" cy="50" r="3" fill="black" />
+      <circle cx="50" cy="10" r="3" fill="black" />
+      <circle cx="50" cy="90" r="3" fill="black" />
     </svg>
   ),
   [KolamType.DOTS_COMPLEX]: ({ className }) => (
     <svg viewBox="0 0 100 100" className={className}>
-      <path d="M50,20 Q80,20 80,50 Q80,80 50,80 Q20,80 20,50 Q20,20 50,20" stroke="white" strokeWidth="2" fill="none" />
-      <path d="M50,10 L50,90" stroke="white" strokeWidth="2" />
-      <path d="M10,50 L90,50" stroke="white" strokeWidth="2" />
-      <circle cx="50" cy="50" r="10" stroke="white" strokeWidth="2" fill="none" />
+      <path d="M50,20 Q80,20 80,50 Q80,80 50,80 Q20,80 20,50 Q20,20 50,20" stroke="black" strokeWidth="2" fill="none" />
+      <path d="M50,10 L50,90" stroke="black" strokeWidth="2" />
+      <path d="M10,50 L90,50" stroke="black" strokeWidth="2" />
+      <circle cx="50" cy="50" r="10" stroke="black" strokeWidth="2" fill="none" />
     </svg>
   ),
   [KolamType.FLOWER]: ({ className }) => (
@@ -67,14 +67,14 @@ export const KOLAM_ASSETS: Record<KolamType, (props: { className?: string }) => 
           <ellipse
             key={i}
             cx="50" cy="30" rx="10" ry="25"
-            fill="#E91E63"
+            fill="black"
             stroke="white"
             strokeWidth="1"
             transform={`rotate(${deg} 50 50)`}
             opacity="0.9"
           />
        ))}
-       <circle cx="50" cy="50" r="10" fill="#FFEB3B" />
+       <circle cx="50" cy="50" r="10" fill="black" />
     </svg>
   ),
 };

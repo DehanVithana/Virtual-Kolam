@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { VideoOff, X } from 'lucide-react';
+import { VideoOff, X, Sparkles } from 'lucide-react';
 import { KolamItem, KolamType, GeminResponseState } from './types';
 import { KOLAM_ASSETS, MAX_ITEMS } from './constants';
 import { Toolbar, ResultModal } from './components/AppUI';
@@ -24,37 +24,59 @@ export default function App() {
   const imgRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   
+  // We use a Ref for the stream to ensure we always have access to the latest instance
+  const streamRef = useRef<MediaStream | null>(null);
+  
   // Gesture Refs
   const touchStartRef = useRef<{ x: number; y: number; dist: number; angle: number } | null>(null);
   const initialItemStateRef = useRef<KolamItem | null>(null);
 
-  // Initialize Camera
+  // Helper: Stop Camera
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    setStream(null);
+  };
+
+  // Helper: Start Camera
+  const startCamera = async () => {
+    stopCamera(); // Ensure cleanup first
+
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }, // Rear camera preferred
+        audio: false,
+      });
+      streamRef.current = mediaStream;
+      setStream(mediaStream);
+      setPermissionDenied(false);
+    } catch (err) {
+      console.error("Camera error:", err);
+      setPermissionDenied(true);
+      setStream(null);
+    }
+  };
+
+  // Effect: Bind Stream to Video Element
   useEffect(() => {
-    const startCamera = async () => {
-      try {
-        const mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment' }, // Rear camera preferred
-          audio: false,
-        });
-        setStream(mediaStream);
-        if (videoRef.current) {
-          videoRef.current.srcObject = mediaStream;
-        }
-      } catch (err) {
-        console.error("Camera error:", err);
-        setPermissionDenied(true);
-      }
-    };
+    // Only bind if we have a stream and we are NOT showing an uploaded image
+    if (videoRef.current && stream && !uploadedImage) {
+      videoRef.current.srcObject = stream;
+      videoRef.current.play().catch(e => console.error("Video play error:", e));
+    }
+  }, [stream, uploadedImage]); 
 
+  // Effect: Initialize Camera on Mount
+  useEffect(() => {
     startCamera();
-
+    
     return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
+      stopCamera();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run once
+  }, []); 
 
   // Add Item
   const addItem = (type: KolamType) => {
@@ -83,17 +105,38 @@ export default function App() {
     if (activeId === id) setActiveId(null);
   };
 
+  // Reset App (Restart)
+  const handleReset = () => {
+    // Removed window.confirm to ensure the button action always fires immediately
+    
+    // 1. Stop existing camera to be safe
+    stopCamera();
+
+    // 2. Clear All State
+    setItems([]);
+    setActiveId(null);
+    setUploadedImage(null);
+    setCapturedImage(null);
+    setGeminiState({ status: 'idle' });
+    setIsModalOpen(false);
+    setPermissionDenied(false);
+
+    // 3. Restart Camera
+    // setTimeout is crucial here: it allows React to perform the render cycle 
+    // where `uploadedImage` becomes null and <video> element is mounted.
+    // Only then can we attach the stream to videoRef.current.
+    setTimeout(() => {
+      startCamera();
+    }, 100);
+  };
+
   // Upload Background
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (ev) => {
         setUploadedImage(ev.target?.result as string);
-        // Stop camera if running to save battery
-        if (stream) {
-          stream.getTracks().forEach(t => t.stop());
-          setStream(null);
-        }
+        stopCamera(); // Stop camera when image is loaded
       };
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -222,14 +265,31 @@ export default function App() {
     <div className="relative w-full h-screen overflow-hidden bg-pongal-cream font-sans touch-none">
       
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-20 pt-10 pb-12 bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none flex flex-col items-center gap-3">
-        <h1 className="text-pongal-turmeric text-2xl md:text-3xl font-serif font-bold tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] text-center uppercase leading-tight px-4">
-          🌾 Thai Pongal AR 🌾
-        </h1>
-        <div className="pointer-events-auto bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 shadow-lg transform active:scale-95 transition-transform">
-           <div className="text-white/90 text-xs font-medium tracking-wide flex flex-col items-center gap-0.5">
-             <span className="opacity-80">Wishes by Dehan Vithana</span>
-             <a href="https://dehanvithana.com" target="_blank" rel="noopener noreferrer" className="text-pongal-turmeric hover:text-pongal-sugarcane transition-colors font-bold border-b border-transparent hover:border-pongal-sugarcane">
+      <div className="absolute top-0 left-0 right-0 z-20 pt-8 pb-12 bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none flex flex-col items-center gap-4">
+        
+        <div className="flex flex-col items-center px-4 text-center">
+           <span className="text-white/80 text-[10px] md:text-xs font-sans tracking-[0.4em] uppercase mb-2 border-b border-white/10 pb-1">
+             Thai Pongal
+           </span>
+           <h1 className="flex items-center gap-2 md:gap-4 text-pongal-turmeric text-3xl md:text-4xl font-serif font-light tracking-[0.1em] drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] uppercase">
+             <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-pongal-cream opacity-80" />
+             Virtual Kolam
+             <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-pongal-cream opacity-80" />
+           </h1>
+        </div>
+
+        <div className="pointer-events-auto bg-black/40 backdrop-blur-md px-6 py-2 rounded-2xl border border-white/10 shadow-xl transform active:scale-95 transition-transform hover:bg-black/50">
+           <div className="flex flex-col items-center justify-center gap-0.5">
+             <div className="flex items-center gap-1 text-[10px] text-white/70 uppercase tracking-widest">
+                <span>Wishes from</span>
+                <span className="text-white font-semibold">Dehan Vithana</span>
+             </div>
+             <a 
+               href="https://dehanvithana.com" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className="text-[10px] text-pongal-turmeric hover:text-pongal-cream transition-colors tracking-widest border-b border-transparent hover:border-pongal-turmeric/50 font-mono"
+             >
                dehanvithana.com
              </a>
            </div>
@@ -326,6 +386,7 @@ export default function App() {
         onAdd={addItem} 
         onCapture={handleCapture} 
         onUpload={handleUpload}
+        onReset={handleReset}
         isCameraActive={!uploadedImage && !permissionDenied}
       />
       

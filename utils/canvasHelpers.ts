@@ -37,11 +37,11 @@ const getSvgString = (type: KolamType): string => {
     case KolamType.SUN:
         return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="${colors.sun}" stroke="#FF9800" stroke-width="2"/><line x1="50" y1="50" x2="50" y2="10" stroke="#FF9800" stroke-width="4"/><line x1="50" y1="50" x2="90" y2="50" stroke="#FF9800" stroke-width="4"/><line x1="50" y1="50" x2="50" y2="90" stroke="#FF9800" stroke-width="4"/><line x1="50" y1="50" x2="10" y2="50" stroke="#FF9800" stroke-width="4"/></svg>`;
     case KolamType.DOTS_SIMPLE:
-        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,10 L90,50 L50,90 L10,50 Z" stroke="white" stroke-width="3" fill="none"/><circle cx="50" cy="50" r="5" fill="white"/></svg>`;
+        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,10 L90,50 L50,90 L10,50 Z" stroke="black" stroke-width="3" fill="none"/><circle cx="50" cy="50" r="5" fill="black"/></svg>`;
     case KolamType.DOTS_COMPLEX:
-        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,20 Q80,20 80,50 Q80,80 50,80 Q20,80 20,50 Q20,20 50,20" stroke="white" stroke-width="2" fill="none"/><circle cx="50" cy="50" r="10" stroke="white" stroke-width="2" fill="none"/></svg>`;
+        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,20 Q80,20 80,50 Q80,80 50,80 Q20,80 20,50 Q20,20 50,20" stroke="black" stroke-width="2" fill="none"/><circle cx="50" cy="50" r="10" stroke="black" stroke-width="2" fill="none"/></svg>`;
     case KolamType.FLOWER:
-        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="10" fill="#FFEB3B"/><ellipse cx="50" cy="25" rx="10" ry="20" fill="#E91E63" opacity="0.8"/><ellipse cx="50" cy="75" rx="10" ry="20" fill="#E91E63" opacity="0.8"/><ellipse cx="25" cy="50" rx="20" ry="10" fill="#E91E63" opacity="0.8"/><ellipse cx="75" cy="50" rx="20" ry="10" fill="#E91E63" opacity="0.8"/></svg>`;
+        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="10" fill="black"/><ellipse cx="50" cy="25" rx="10" ry="20" fill="black" stroke="white" stroke-width="1" opacity="0.9"/><ellipse cx="50" cy="75" rx="10" ry="20" fill="black" stroke="white" stroke-width="1" opacity="0.9"/><ellipse cx="25" cy="50" rx="20" ry="10" fill="black" stroke="white" stroke-width="1" opacity="0.9"/><ellipse cx="75" cy="50" rx="20" ry="10" fill="black" stroke="white" stroke-width="1" opacity="0.9"/></svg>`;
     default:
         return `<svg></svg>`;
   }

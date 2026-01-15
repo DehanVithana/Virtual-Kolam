@@ -7,10 +7,11 @@ interface ToolbarProps {
   onAdd: (type: KolamType) => void;
   onCapture: () => void;
   onUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onReset: () => void;
   isCameraActive: boolean;
 }
 
-export const Toolbar: React.FC<ToolbarProps> = ({ onAdd, onCapture, onUpload, isCameraActive }) => {
+export const Toolbar: React.FC<ToolbarProps> = ({ onAdd, onCapture, onUpload, onReset, isCameraActive }) => {
   return (
     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent pt-12 z-20">
       <div className="flex flex-col items-center gap-4">
@@ -38,7 +39,16 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onAdd, onCapture, onUpload, is
         <div className="flex items-center justify-between w-full max-w-sm px-4">
           <label className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white cursor-pointer hover:bg-white/30 active:scale-95 transition-transform">
             <Upload size={24} />
-            <input type="file" accept="image/*" className="hidden" onChange={onUpload} />
+            <input 
+              type="file" 
+              accept="image/*" 
+              className="hidden" 
+              onChange={(e) => {
+                onUpload(e);
+                // Reset input value to allow re-uploading the same file if needed
+                e.target.value = '';
+              }} 
+            />
           </label>
 
           <button
@@ -49,7 +59,13 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onAdd, onCapture, onUpload, is
             <div className="w-16 h-16 bg-white/20 rounded-full animate-pulse" />
           </button>
 
-          <div className="w-12" /> {/* Spacer for symmetry */}
+          <button
+            onClick={onReset}
+            className="p-3 bg-red-500/80 backdrop-blur-md rounded-full text-white cursor-pointer hover:bg-red-600 active:scale-95 transition-transform"
+            aria-label="Reset Canvas"
+          >
+             <RotateCcw size={24} />
+          </button>
         </div>
       </div>
     </div>

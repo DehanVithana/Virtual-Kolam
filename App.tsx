@@ -262,7 +262,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-pongal-cream font-sans touch-none">
+    <div className="relative w-full h-[100dvh] overflow-hidden bg-pongal-cream font-sans touch-none">
       
       {/* Header */}
       <div className="absolute top-0 left-0 right-0 z-20 pt-8 pb-12 bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none flex flex-col items-center gap-4">
@@ -281,7 +281,7 @@ export default function App() {
         <div className="pointer-events-auto bg-black/40 backdrop-blur-md px-6 py-2 rounded-2xl border border-white/10 shadow-xl transform active:scale-95 transition-transform hover:bg-black/50">
            <div className="flex flex-col items-center justify-center gap-0.5">
              <div className="flex items-center gap-1 text-[10px] text-white/70 uppercase tracking-widest">
-                <span>Wishes from</span>
+                <span>Concept by</span>
                 <span className="text-white font-semibold">Dehan Vithana</span>
              </div>
              <a 

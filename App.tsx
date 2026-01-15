@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { VideoOff } from 'lucide-react';
+import { VideoOff, X } from 'lucide-react';
 import { KolamItem, KolamType, GeminResponseState } from './types';
 import { KOLAM_ASSETS, MAX_ITEMS } from './constants';
 import { Toolbar, ResultModal } from './components/AppUI';
@@ -75,6 +75,12 @@ export default function App() {
     };
     setItems(prev => [...prev, newItem]);
     setActiveId(newItem.id);
+  };
+
+  // Delete Item
+  const deleteItem = (id: string) => {
+    setItems(prev => prev.filter(i => i.id !== id));
+    if (activeId === id) setActiveId(null);
   };
 
   // Upload Background
@@ -216,14 +222,17 @@ export default function App() {
     <div className="relative w-full h-screen overflow-hidden bg-pongal-cream font-sans touch-none">
       
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-20 p-4 pt-6 pb-12 bg-gradient-to-b from-black/90 to-transparent pointer-events-none flex flex-col items-center gap-2">
-        <h1 className="text-pongal-turmeric text-3xl font-serif font-bold tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] text-center uppercase">
+      <div className="absolute top-0 left-0 right-0 z-20 pt-10 pb-12 bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none flex flex-col items-center gap-3">
+        <h1 className="text-pongal-turmeric text-2xl md:text-3xl font-serif font-bold tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] text-center uppercase leading-tight px-4">
           🌾 Thai Pongal AR 🌾
         </h1>
-        <div className="pointer-events-auto bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 shadow-lg transform active:scale-95 transition-transform">
-           <p className="text-white/90 text-xs font-medium tracking-wide">
-             Developed by <a href="https://dehanvithana.com" target="_blank" rel="noopener noreferrer" className="text-pongal-turmeric hover:text-pongal-sugarcane transition-colors font-bold border-b border-transparent hover:border-pongal-sugarcane">Dehan Vithana</a>
-           </p>
+        <div className="pointer-events-auto bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 shadow-lg transform active:scale-95 transition-transform">
+           <div className="text-white/90 text-xs font-medium tracking-wide flex flex-col items-center gap-0.5">
+             <span className="opacity-80">Wishes by Dehan Vithana</span>
+             <a href="https://dehanvithana.com" target="_blank" rel="noopener noreferrer" className="text-pongal-turmeric hover:text-pongal-sugarcane transition-colors font-bold border-b border-transparent hover:border-pongal-sugarcane">
+               dehanvithana.com
+             </a>
+           </div>
         </div>
       </div>
 
@@ -280,7 +289,22 @@ export default function App() {
               <div className={`relative w-full h-full transition-shadow ${isActive ? 'drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]' : ''}`}>
                 <Asset className="w-full h-full filter drop-shadow-lg" />
                 {isActive && (
-                  <div className="absolute -inset-4 border-2 border-dashed border-white/50 rounded-full animate-pulse pointer-events-none" />
+                  <>
+                    <div className="absolute -inset-4 border-2 border-dashed border-white/50 rounded-full animate-pulse pointer-events-none" />
+                    <button
+                        className="absolute -top-6 -right-6 w-9 h-9 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white z-30 active:scale-90 transition-transform"
+                        onTouchEnd={(e) => {
+                            e.stopPropagation();
+                            deleteItem(item.id);
+                        }}
+                        onClick={(e) => { // Mouse click fallback
+                            e.stopPropagation();
+                            deleteItem(item.id);
+                        }}
+                    >
+                        <X size={18} />
+                    </button>
+                  </>
                 )}
               </div>
             </div>
@@ -301,19 +325,10 @@ export default function App() {
       <Toolbar 
         onAdd={addItem} 
         onCapture={handleCapture} 
-        onUpload={() => {}} // Triggered by label in Toolbar component 
+        onUpload={handleUpload}
         isCameraActive={!uploadedImage && !permissionDenied}
       />
       
-      {/* Hidden file input handler connected to Toolbar via ID or ref would be cleaner, 
-          but simpler to pass handler logic if we restructure. 
-          For now, Toolbar handles the file input UI. We need to pass the handler logic down. 
-          Actually Toolbar has the input inside the label. We just need the event.
-      */}
-      <div className="hidden">
-         <input type="file" id="upload-hidden" onChange={handleUpload} />
-      </div>
-
       {/* Result Modal */}
       <ResultModal 
         isOpen={isModalOpen}

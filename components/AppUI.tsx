@@ -6,7 +6,7 @@ import { KOLAM_ASSETS } from '../constants';
 interface ToolbarProps {
   onAdd: (type: KolamType) => void;
   onCapture: () => void;
-  onUpload: () => void;
+  onUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isCameraActive: boolean;
 }
 
@@ -36,7 +36,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onAdd, onCapture, onUpload, is
 
         {/* Main Actions */}
         <div className="flex items-center justify-between w-full max-w-sm px-4">
-          <label className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white cursor-pointer hover:bg-white/30">
+          <label className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white cursor-pointer hover:bg-white/30 active:scale-95 transition-transform">
             <Upload size={24} />
             <input type="file" accept="image/*" className="hidden" onChange={onUpload} />
           </label>

@@ -10,33 +10,26 @@ export const generateRealKolam = async (base64Image: string): Promise<string> =>
   const ai = new GoogleGenAI({ apiKey });
 
   const prompt = `
-    You are an expert visual effects artist specializing in Augmented Reality blending.
+    You are an expert visual effects artist and traditional Kolam artist.
     
-    The input image consists of a REAL photo of a floor/environment with simple DIGITAL VECTOR OVERLAYS (white patterns, icons) placed on top.
+    The input image is a photo of a floor with digital vector overlays.
     
     YOUR TASK:
-    Generate a photorealistic version of this scene where the digital overlays are replaced by real physical materials.
+    Transform the digital overlays into a single, magnificent, CIRCULAR KOLAM (Rangoli) design made of real rice flour and flower petals on the floor.
     
-    SPECIFIC INSTRUCTIONS:
-    1. **Kolam Patterns (White Lines):** The digital white lines MUST become **traditional Rice Flour Powder (Rangoli)**. 
-       - They should look grainy, powdery, and textured. 
-       - They must sit *on* the floor surface, reacting to the floor's roughness.
-       - They must NOT look like glowing lines, paint, or stickers. They should look like hand-poured powder.
-       
-    2. **Pongal Pot (Icon):** Replace the icon with a **real Earthenware Clay Pot** cooking Pongal. 
-       - It should be overflowing with white frothy milk. 
-       - It must cast a realistic shadow on the floor matching the scene's lighting.
-       
-    3. **Sugarcane (Icon):** Replace with **real purple/green Sugarcane stalks** with natural leaves.
+    CRITICAL DESIGN RULES:
+    1. **Unified Circle:** Regardless of how scattered the input items are, organize the generated output into ONE SINGLE COHESIVE CIRCULAR DESIGN (Mandala style).
+    2. **Material:** Use white rice flour powder for the intricate lines and yellow/orange flower petals for accents. The texture must be powdery and realistic.
+    3. **The Pot (if present):** If you see the Pot icon, place a realistic Earthenware Pongal Pot (overflowing with milk) EXACTLY IN THE CENTER of the circular Kolam.
+    4. **Sugarcane (if present):** If you see Sugarcane icons, arrange realistic sugarcane stalks naturally behind or beside the circular design.
+    5. **Patterns:** Transform the simple lines/dots into a complex, traditional circular geometric pattern.
     
-    4. **Sun (Icon):** Replace with a pattern made of yellow flower petals or yellow powder.
-
-    5. **Background & Perspective:** 
-       - PRESERVE the original floor texture, lighting, and background details EXACTLY. 
-       - Do not change the room. 
-       - Ensure the new objects follow the perspective of the floor.
-
-    The final output should look like a legitimate photograph of a Thai Pongal celebration, not a digital edit.
+    REALISM:
+    - The design must look like it was hand-drawn on the specific floor in the image.
+    - Preserve the floor texture, lighting, and perspective relative to the camera.
+    - Add realistic shadows for the pot and sugarcane.
+    
+    Output a photorealistic image of this circular Kolam celebration setup.
   `;
 
   try {

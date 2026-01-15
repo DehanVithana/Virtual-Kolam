@@ -1,0 +1,7 @@
+{
+  "name": "Virtual Kolam Creator",
+  "description": "A festive WebAR experience for Thai Pongal. Decorate your surroundings with traditional Kolam designs using your camera, and use AI to make them look real.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

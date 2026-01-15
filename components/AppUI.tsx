@@ -14,13 +14,13 @@ interface ToolbarProps {
 export const Toolbar: React.FC<ToolbarProps> = ({ onAdd, onCapture, onUpload, onReset, isCameraActive }) => {
   return (
     <div 
-      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-12 z-20"
+      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-6 z-20"
       style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
     >
-      <div className="flex flex-col items-center gap-6">
+      <div className="flex flex-col items-center gap-3">
         
         {/* Kolam Selector Scroll */}
-        <div className="w-full overflow-x-auto no-scrollbar pb-2">
+        <div className="w-full overflow-x-auto no-scrollbar pb-1">
           <div className="flex gap-4 px-4 justify-center md:justify-start min-w-full md:min-w-0">
             {Object.keys(KOLAM_ASSETS).map((key) => {
               const type = key as KolamType;
@@ -29,7 +29,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onAdd, onCapture, onUpload, on
                 <button
                   key={key}
                   onClick={() => onAdd(type)}
-                  className="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 bg-pongal-cream/90 rounded-full border-2 border-pongal-maroon shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
+                  className="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 bg-pongal-cream/90 rounded-full border-2 border-pongal-maroon shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
                 >
                   <Icon className="w-8 h-8 md:w-10 md:h-10" />
                 </button>
@@ -39,7 +39,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onAdd, onCapture, onUpload, on
         </div>
 
         {/* Main Actions */}
-        <div className="flex items-center justify-center gap-8 w-full max-w-sm px-4 pb-2">
+        <div className="flex items-center justify-center gap-8 w-full max-w-sm px-4">
           <label className="p-3 bg-white/10 backdrop-blur-md rounded-full text-white cursor-pointer hover:bg-white/20 active:scale-95 transition-transform border border-white/20">
             <Upload size={24} />
             <input 
@@ -57,11 +57,12 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onAdd, onCapture, onUpload, on
           {/* Shutter Button - Ring Style */}
           <button
             onClick={onCapture}
-            className="group relative w-20 h-20 rounded-full border-4 border-white flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.5)] active:scale-95 transition-transform"
+            className="group relative w-18 h-18 rounded-full border-4 border-white flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.5)] active:scale-95 transition-transform"
             aria-label="Capture Photo"
+            style={{ width: '72px', height: '72px' }}
           >
             {/* Inner Circle */}
-            <div className="w-16 h-16 bg-pongal-turmeric rounded-full border-2 border-white/50 shadow-inner group-active:scale-90 transition-transform duration-100" />
+            <div className="w-14 h-14 bg-pongal-turmeric rounded-full border-2 border-white/50 shadow-inner group-active:scale-90 transition-transform duration-100" />
           </button>
 
           <button

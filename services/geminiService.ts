@@ -20,9 +20,7 @@ export const generateRealKolam = async (base64Image: string): Promise<string> =>
     CRITICAL DESIGN RULES:
     1. **Unified Circle:** Regardless of how scattered the input items are, organize the generated output into ONE SINGLE COHESIVE CIRCULAR DESIGN (Mandala style).
     2. **Material:** Use white rice flour powder for the intricate lines and yellow/orange flower petals for accents. The texture must be powdery and realistic.
-    3. **The Pot (if present):** If you see the Pot icon, place a realistic Earthenware Pongal Pot (overflowing with milk) EXACTLY IN THE CENTER of the circular Kolam.
-    4. **Sugarcane (if present):** If you see Sugarcane icons, arrange realistic sugarcane stalks naturally behind or beside the circular design.
-    5. **Patterns:** Transform the simple lines/dots into a complex, traditional circular geometric pattern.
+    3. **Patterns:** Transform the simple lines/dots into a complex, traditional circular geometric pattern.
     
     REALISM:
     - The design must look like it was hand-drawn on the specific floor in the image.
